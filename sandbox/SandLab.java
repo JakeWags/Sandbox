@@ -86,12 +86,12 @@ public class SandLab
        } else if (direction == 1) { // right
            if (col + 1 != grid[0].length) {
                newCol = col + 1;
-               newRow = row + 1;
+              // newRow = row + 1;
            }
        } else { // left
            if (col - 1 != -1) {
                newCol = col - 1;
-               newRow = row + 1;
+               // newRow = row + 1;
            }
        }
        if (grid[newRow][newCol] == Air.elementNumber && grid[row][col] == Water.elementNumber) {
