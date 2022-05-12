@@ -19,21 +19,12 @@ public class Water extends Element {
         int direction = gen.nextInt(2);
         int newCol, newRow;
 
-        if ((current == Element.WATER) && row+1 != grid.length) {
-            newCol = col;
+        if ((current == Element.WATER) && row+1 != grid.length && col-1 > 0 && col+1 < grid[0].length) {
+
             newRow = (grid[row + 1][col] == Element.AIR) ? row + 1: row;
             direction = gen.nextInt(3);
+            newCol = (direction == 1) ? col - 1 : col + 1;
 
-            if (direction == 1) { // left
-                if (col - 1 != 0) {
-                    newCol = col - 1;
-                }
-            }
-            else if (direction == 2) { // right
-                if (col + 1 != grid[0].length) {
-                    newCol = col + 1;
-                }
-            }
             if (grid[newRow][newCol] == Element.AIR) {
                 grid[newRow][newCol] = Element.WATER;
                 grid[row][col] = Element.AIR;

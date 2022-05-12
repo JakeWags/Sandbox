@@ -110,7 +110,9 @@ public class SandLab
 
  public static void main(String[] args)
   {
-    SandLab lab = new SandLab(120, 80);
+      int windowWidth = 80;
+      int windowHeight = 120;
+    SandLab lab = new SandLab(windowHeight, windowWidth);
     lab.run();
   }
 }
