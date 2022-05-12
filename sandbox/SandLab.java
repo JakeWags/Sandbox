@@ -6,12 +6,13 @@ import sandbox.elements.*;
 
 public class SandLab
 {
-  //do not add any more fields
+
   private int[][] grid;
   private SandDisplay display;
-  
+
+  private Element[] elements = {new Air(), new Sand(), new Water()};
+
   public SandLab(int numRows, int numCols) {
-      Element[] elements = {new Air(), new Sand(), new Water()};
       String[] names = new String[3];
       for(int i = 0; i < elements.length; i++) names[i] = elements[i].getName();
       display = new SandDisplay("Falling Sand", numRows, numCols, names);
@@ -28,12 +29,38 @@ public class SandLab
       int c = grid[row][col];
 
       switch (c) {
-          case Air.elementNumber -> display.setColor(row, col, Air.color);
-          case Sand.elementNumber -> display.setColor(row, col, Sand.color);
-          case Water.elementNumber -> display.setColor(row, col, Water.color);
+          case Element.AIR -> display.setColor(row, col, Air.COLOR);
+          case Element.SAND -> display.setColor(row, col, Sand.COLOR);
+          case Element.WATER -> display.setColor(row, col, Water.COLOR);
           default -> {}
       }
 
+  }
+
+  /* Swaps the given row,col element with the one below it */
+  private void swapBelow(int row, int col) {
+      int one = grid[row][col];
+      int two = grid[row+1][col];
+
+      grid[row + 1][col] = one;
+      grid[row][col] = two;
+  }
+
+  /* compares densities */
+  private void compareDensity(int row, int col) {
+      if (row + 1 < grid.length) {
+          int currentNum = grid[row][col];
+          Element current = Element.getElementFromNum(currentNum);
+          Element below = Element.getElementFromNum(grid[row + 1][col]);
+          if (current == null || below == null) return;
+
+          double currentDensity = current.getDensity();
+          double belowDensity = below.getDensity();
+
+          if (currentDensity > belowDensity) {
+              swapBelow(row, col);
+          }
+      }
   }
 
   /** copies each element of grid into the display */
@@ -52,53 +79,18 @@ public class SandLab
 
   /** called repeatedly.
    *  causes one random particle to maybe do something. */
+  // this will go to individual class functions
   public void step() {
        Random gen = new Random();
 
        int col = gen.nextInt(grid[0].length);
        int row = gen.nextInt(grid.length);
-       int direction;
 
-       int newRow, newCol;
+       compareDensity(row,col);
 
-       int rc = grid[row][col];
-
-       // replace with density value comparisons
-       // if sand.density > water.density: swap
-       if (rc == Sand.elementNumber && row+1 != grid.length) {
-          if (grid[row+1][col] == Air.elementNumber) {
-             grid[row+1][col] = Sand.elementNumber;
-             grid[row][col] = Air.elementNumber;
-          }
-          if (grid[row+1][col] == Water.elementNumber) {
-             grid[row+1][col] = Sand.elementNumber;
-             grid[row][col] = Water.elementNumber;
-          }
+       for (Element e : elements) {
+           e.step(grid,row,col);
        }
-
-   if ((rc == Water.elementNumber) && row+1 != grid.length) {
-       newCol = col;
-       newRow = row;
-       direction = gen.nextInt(3);
-
-       if (direction == 0) { // down
-           newRow = row + 1;
-       } else if (direction == 1) { // right
-           if (col + 1 != grid[0].length) {
-               newCol = col + 1;
-              // newRow = row + 1;
-           }
-       } else { // left
-           if (col - 1 != -1) {
-               newCol = col - 1;
-               // newRow = row + 1;
-           }
-       }
-       if (grid[newRow][newCol] == Air.elementNumber && grid[row][col] == Water.elementNumber) {
-           grid[newRow][newCol] = Water.elementNumber;
-           grid[row][col] = Air.elementNumber;
-       }
-   }
   }
 
   public void run()

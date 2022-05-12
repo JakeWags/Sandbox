@@ -4,18 +4,22 @@ import java.awt.*;
 
 public class Air extends Element {
     public static final int elementNumber = 0;
-    public static final String name = "Air";
-    public static final Color color = Color.BLACK;
+    public static final String NAME = "Air";
+    public static final Color COLOR = Color.BLACK;
+    public static double density = 1.0;
 
     @Override
-    void step(int row, int col) {
+    public void step(int[][] grid, int row, int col) {
 
     }
 
     @Override
     public String getName() {
-        return Air.name;
+        return Air.NAME;
     }
+
+    @Override
+    public double getDensity() { return Air.density; }
 
 
 }

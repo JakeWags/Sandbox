@@ -4,16 +4,19 @@ import java.awt.*;
 
 public class Sand extends Element {
     public static final int elementNumber = 1;
-    public static final String name = "Sand";
-    public static final Color color = Color.YELLOW;
+    public static final String NAME = "Sand";
+    public static final Color COLOR = Color.YELLOW;
+    public static double density = 3.0;
 
     @Override
-    void step(int row, int col) {
+    public void step(int[][] grid, int row, int col) {
 
     }
 
     @Override
     public String getName() {
-        return Sand.name;
+        return Sand.NAME;
     }
+
+    public double getDensity() { return Sand.density; }
 }
