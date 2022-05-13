@@ -8,13 +8,13 @@ import java.util.Random;
 public interface LooseSolid extends Solid {
     Random gen = new Random();
 
-    public static void particleFlow(int[][] grid, int row, int col) {
+    static void particleFlow(int[][] grid, int row, int col) {
 
         int current = grid[row][col];
         int below;
         if (row + 1 < grid.length) { below = grid[row+1][col]; } else return; // set below or exit function if the particle is on the bottom already
 
-        if (below == Element.SAND) { // can only be accessed if current is not on the bottom
+        if (below == current) { // can only be accessed if current is not on the bottom
             if (col - 1 >= 0 && col + 1 < grid[0].length) { // in the center
                 if (SandLab.compareDensities(current,grid[row+1][col - 1]) && SandLab.compareDensities(current, grid[row+1][col + 1])) { // if both sides are less dense
                     int direction = gen.nextInt(2);

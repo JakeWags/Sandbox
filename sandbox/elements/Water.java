@@ -1,5 +1,7 @@
 package sandbox.elements;
 
+import sandbox.SandLab;
+
 import java.awt.*;
 import java.util.Random;
 
@@ -34,10 +36,8 @@ public class Water extends Element {
                 newCol = col + 1;
             }
 
-
             if (grid[newRow][newCol] == Element.AIR) {
-                grid[newRow][newCol] = Element.WATER;
-                grid[row][col] = Element.AIR;
+                SandLab.swap(row, col, newRow, newCol, grid);
             }
         }
     }
