@@ -30,7 +30,7 @@ public class SandDisplay extends JComponent implements MouseListener,
     speed = computeSpeed(50);
     
     //determine cell size
-    cellSize = Math.max(1, 600 / Math.max(numRows, numCols));
+    cellSize = Math.max(1, 900 / Math.max(numRows, numCols));
     image = new BufferedImage(numCols * cellSize, numRows * cellSize, BufferedImage.TYPE_INT_RGB);
     
     frame = new JFrame(title);

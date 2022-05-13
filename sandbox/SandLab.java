@@ -98,22 +98,13 @@ public class SandLab
   {
     int col;
     int row;
-    int counter = 0;
-   
-//   for (int i = 0; i<grid[0].length*grid.length; i++) {
-//      col = i%grid[0].length;
-//      row = i/grid[0].length;
-//       counter++;
-//       setDisplayColor(row, col);
-//    }
+
       for (Position p : updated_positions) {
           row = p.row;
           col = p.col;
 
-          counter++;
           setDisplayColor(row, col);
       }
-      System.out.println("Updated: " + counter + " pixels.");
       updated_positions.clear();
   }
 
