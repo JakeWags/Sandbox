@@ -25,4 +25,9 @@ public class Air extends Element {
     public int getElementNumber() {
         return Air.elementNumber;
     }
+
+    @Override
+    public Color getColor() {
+        return Air.COLOR;
+    }
 }

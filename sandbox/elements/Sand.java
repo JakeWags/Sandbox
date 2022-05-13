@@ -26,4 +26,9 @@ public class Sand extends Element implements LooseSolid {
     public int getElementNumber() {
         return Sand.elementNumber;
     }
+
+    @Override
+    public Color getColor() {
+        return Sand.COLOR;
+    }
 }

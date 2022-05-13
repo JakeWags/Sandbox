@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.Random;
 
 public class Water extends Element {
-    public static final int elementNumber = 2;
+    public static final int elementNumber = Element.WATER;
     public static final String NAME = "Water";
     public static final Color COLOR = Color.BLUE;
     public static double density = 2.0;
@@ -53,5 +53,10 @@ public class Water extends Element {
     @Override
     public int getElementNumber() {
         return Water.elementNumber;
+    }
+
+    @Override
+    public Color getColor() {
+        return Water.COLOR;
     }
 }

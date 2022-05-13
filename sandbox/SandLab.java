@@ -12,11 +12,13 @@ public class SandLab
   private SandDisplay display;
   private static ArrayList<Position> updated_positions = new ArrayList<>();
 
-  private Element[] elements = {new Air(), new Sand(), new Water()};
-
   public SandLab(int numRows, int numCols) {
-      String[] names = new String[3];
-      for(int i = 0; i < elements.length; i++) names[i] = elements[i].getName();
+      Element.init_elements();
+
+      String[] names = new String[Element.numElements];
+      for(int i = 0; i < Element.numElements; i++) {
+          names[i] = Element.elements.get(i).getName();
+      }
       display = new SandDisplay("Falling Sand", numRows, numCols, names);
       grid = new int[numRows][numCols];
   }
@@ -42,6 +44,10 @@ public class SandLab
         Element elementOne = Element.getElementFromNum(one);
         Element elementTwo = Element.getElementFromNum(two);
 
+        if (elementOne.getDensity() < 0 || elementTwo.getDensity() < 0) {
+            return false; // if either element is "immovable"
+        }
+
         return (elementOne.getDensity() > elementTwo.getDensity());
     }
 
@@ -50,18 +56,13 @@ public class SandLab
   private void locationClicked(int row, int col, int tool)
   {
    grid[row][col] = tool;
+   updated_positions.add(new Position(row, col));
   }
 
   private void setDisplayColor(int row, int col) {
       int c = grid[row][col];
 
-      switch (c) {
-          case Element.AIR -> display.setColor(row, col, Air.COLOR);
-          case Element.SAND -> display.setColor(row, col, Sand.COLOR);
-          case Element.WATER -> display.setColor(row, col, Water.COLOR);
-          default -> {}
-      }
-
+      display.setColor(row, col, Element.getElementFromNum(c).getColor());
   }
 
   /* Swaps the given row,col element with the one below it */
@@ -80,15 +81,9 @@ public class SandLab
   /* compares densities */
   private boolean compareDensityBelow(int row, int col) {
       if (row + 1 < grid.length) {
-          int currentNum = grid[row][col];
-          Element current = Element.getElementFromNum(currentNum);
-          Element below = Element.getElementFromNum(grid[row + 1][col]);
-          if (current == null || below == null) return false;
-
-          double currentDensity = current.getDensity();
-          double belowDensity = below.getDensity();
-
-          return (currentDensity > belowDensity);
+          int current = grid[row][col];
+          int below = grid[row+1][col];
+          return compareDensities(current, below);
       }
       return false;
   }
@@ -118,14 +113,12 @@ public class SandLab
        int row = gen.nextInt(grid.length);
 
        int rc = grid[row][col];
-       if (rc != Element.AIR) {
-
-           for (Element e : elements) {
+           for (Element e : Element.elements) {
                if (rc == e.getElementNumber()) {
                    e.step(grid, row, col);
                }
            }
-       }
+
       if (compareDensityBelow(row,col)) swapBelow(row, col); // if currentDensity is greater than below density
   }
 
