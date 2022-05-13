@@ -18,7 +18,29 @@ public class SandLab
       display = new SandDisplay("Falling Sand", numRows, numCols, names);
       grid = new int[numRows][numCols];
   }
-  
+
+    // STATIC METHODS
+    // swaps two pixel number values
+    public static void swap(int row, int col, int newRow, int newCol, int[][] grid) {
+        int one = grid[row][col];
+        int two = grid[newRow][newCol];
+
+        grid[newRow][newCol] = one;
+        grid[row][col] = two;
+    }
+
+    // compares the densities of two elements from the elementNumbers.
+    // RETURNS:
+    //      true - element one density is greater
+    //      false - element two density is greater
+    public static boolean compareDensities(int one, int two) {
+        Element elementOne = Element.getElementFromNum(one);
+        Element elementTwo = Element.getElementFromNum(two);
+
+        return (elementOne.getDensity() > elementTwo.getDensity());
+    }
+
+
   //called when the user clicks on a location using the given tool
   private void locationClicked(int row, int col, int tool)
   {
@@ -46,21 +68,21 @@ public class SandLab
       grid[row][col] = two;
   }
 
+
   /* compares densities */
-  private void compareDensity(int row, int col) {
+  private boolean compareDensityBelow(int row, int col) {
       if (row + 1 < grid.length) {
           int currentNum = grid[row][col];
           Element current = Element.getElementFromNum(currentNum);
           Element below = Element.getElementFromNum(grid[row + 1][col]);
-          if (current == null || below == null) return;
+          if (current == null || below == null) return false;
 
           double currentDensity = current.getDensity();
           double belowDensity = below.getDensity();
 
-          if (currentDensity > belowDensity) {
-              swapBelow(row, col);
-          }
+          return (currentDensity > belowDensity);
       }
+      return false;
   }
 
   /** copies each element of grid into the display */
@@ -93,7 +115,7 @@ public class SandLab
               e.step(grid, row, col);
           }
       }
-      compareDensity(row,col);
+      if (compareDensityBelow(row,col)) swapBelow(row, col); // if currentDensity is greater than below density
   }
 
   public void run()
