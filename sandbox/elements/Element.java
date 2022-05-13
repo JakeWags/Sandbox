@@ -11,7 +11,8 @@ public abstract class Element {
     public static final int SAND = 1;
     public static final int WATER = 2;
     public static final int STONE = 3;
-    public static int numElements = 4;
+    public static final int STEEL = 4;
+    public static int numElements = 5;
     public static double density = -1;
 
     public static ArrayList<Element> elements = new ArrayList<>(numElements);
@@ -21,6 +22,7 @@ public abstract class Element {
         elements.add(new Sand());
         elements.add(new Water());
         elements.add(new Stone());
+        elements.add(new Steel());
     }
 
 
