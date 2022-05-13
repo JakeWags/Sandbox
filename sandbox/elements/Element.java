@@ -33,4 +33,5 @@ public abstract class Element {
     public abstract void step(int[][] grid, int row, int col);
     public abstract String getName();
     public abstract double getDensity();
+    public abstract int getElementNumber();
 }

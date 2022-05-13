@@ -14,6 +14,24 @@ public class Sand extends Element {
     @Override
     public void step(int[][] grid, int row, int col) {
       // add better sand flow behavior
+      /*
+      if element below is sand:
+        if down-left is air and down-right is air:
+            randomly generate left or right
+            n = -1 or 1 (left or right)
+            newCol = col + n
+            perform air-sand swap
+            exit
+        if down-left is air and down-right is not air:
+            newCol = col - 1
+            perform air-sand swap
+            exit
+        if down-right is air and down-left is not air:
+            newCol = col + 1
+            perform air-sand swap
+            exit
+       */
+
     }
 
     @Override
@@ -22,4 +40,9 @@ public class Sand extends Element {
     }
 
     public double getDensity() { return Sand.density; }
+
+    @Override
+    public int getElementNumber() {
+        return Sand.elementNumber;
+    }
 }

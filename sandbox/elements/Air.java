@@ -21,5 +21,8 @@ public class Air extends Element {
     @Override
     public double getDensity() { return Air.density; }
 
-
+    @Override
+    public int getElementNumber() {
+        return Air.elementNumber;
+    }
 }

@@ -86,11 +86,14 @@ public class SandLab
        int col = gen.nextInt(grid[0].length);
        int row = gen.nextInt(grid.length);
 
-       compareDensity(row,col);
+       int rc = grid[row][col];
 
-       for (Element e : elements) {
-           e.step(grid,row,col);
-       }
+      for (Element e : elements) {
+          if (rc == e.getElementNumber()) {
+              e.step(grid, row, col);
+          }
+      }
+      compareDensity(row,col);
   }
 
   public void run()

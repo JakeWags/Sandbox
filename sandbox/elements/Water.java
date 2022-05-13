@@ -16,13 +16,18 @@ public class Water extends Element {
     public void step(int[][] grid, int row, int col) {
         int current = grid[row][col];
 
-        int direction = gen.nextInt(2);
+        int direction;
         int newCol, newRow;
 
-        if ((current == Element.WATER) && row+1 != grid.length) {
+        if (row+1 != grid.length) {
             newRow = (grid[row + 1][col] == Element.AIR) ? row + 1: row;
             newCol = col;
-            direction = gen.nextInt(2);
+
+            // if falling through air, prioritize downward movement, else only enable left or right
+            // the higher downward_priority is, the less horizontal dispersion there is
+            int downward_priority = 15;
+            direction = (newRow == row + 1) ? gen.nextInt(downward_priority) : gen.nextInt(2);
+
             if (direction == 0 && col - 1 >= 0) { // left
                 newCol = col - 1;
             } else if (direction == 1 && col + 1 < grid[0].length) { // right
@@ -44,4 +49,9 @@ public class Water extends Element {
 
     @Override
     public double getDensity() { return Water.density; }
+
+    @Override
+    public int getElementNumber() {
+        return Water.elementNumber;
+    }
 }
