@@ -8,7 +8,7 @@ public class Stone extends Element implements RigidSolid {
     public static final int elementNumber = Element.STONE;
     public static final String NAME = "Stone";
     public static final Color COLOR = Color.GRAY;
-    public static double density = -1.0; // negative density means no gravitational movement
+    public static double density = 500; // very high density means no gravitational movement
 
     @Override
     public void step(int[][] grid, int row, int col) {
@@ -33,5 +33,10 @@ public class Stone extends Element implements RigidSolid {
     @Override
     public Color getColor() {
         return Stone.COLOR;
+    }
+
+    @Override
+    public boolean isMoveable() {
+        return moveable;
     }
 }

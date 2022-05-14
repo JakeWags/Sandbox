@@ -3,14 +3,15 @@ package sandbox;
 import java.awt.*;
 import java.util.*;
 import sandbox.elements.*;
+import sandbox.elements.types.RigidSolid;
 import sandbox.util.Position;
 
 public class SandLab
 {
 
-  private int[][] grid;
-  private SandDisplay display;
-  private static ArrayList<Position> updated_positions = new ArrayList<>();
+  private final int[][] grid;
+  private final SandDisplay display;
+  private static final ArrayList<Position> updated_positions = new ArrayList<>();
 
   public SandLab(int numRows, int numCols) {
       Element.init_elements();
@@ -44,9 +45,7 @@ public class SandLab
         Element elementOne = Element.getElementFromNum(one);
         Element elementTwo = Element.getElementFromNum(two);
 
-        if (elementOne.getDensity() < 0 || elementTwo.getDensity() < 0) {
-            return false; // if either element is "immovable"
-        }
+        if (elementOne instanceof RigidSolid || elementTwo instanceof RigidSolid) { return false; }
 
         return (elementOne.getDensity() > elementTwo.getDensity());
     }
