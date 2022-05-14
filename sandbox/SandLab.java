@@ -24,9 +24,10 @@ public class SandLab
       grid = new int[numRows][numCols];
   }
 
+    /* ===================================================================================================================== */
     // STATIC METHODS
     // swaps two pixel number values
-    public static void swap(int row, int col, int newRow, int newCol, int[][] grid) {
+    public static void swap(int[][] grid, int row, int col, int newRow, int newCol) {
         int one = grid[row][col];
         int two = grid[newRow][newCol];
 
@@ -37,6 +38,12 @@ public class SandLab
         SandLab.updated_positions.add(new Position(newRow, newCol));
     }
 
+    // change the given row, col position to the given element and update the cell
+    public static void changeElement(int[][] grid, int row, int col, int eNumReplace) {
+        grid[row][col] = eNumReplace;
+        SandLab.updated_positions.add(new Position(row, col));
+    }
+
     // compares the densities of two elements from the elementNumbers.
     // RETURNS:
     //      true - element one density is greater
@@ -45,11 +52,77 @@ public class SandLab
         Element elementOne = Element.getElementFromNum(one);
         Element elementTwo = Element.getElementFromNum(two);
 
-        if (elementOne instanceof RigidSolid || elementTwo instanceof RigidSolid) { return false; }
+        // if "immovable"
+        if ((elementOne instanceof RigidSolid || elementTwo instanceof RigidSolid) || (elementOne.getDensity() > 499 || elementTwo.getDensity() > 499)) { return false; }
 
         return (elementOne.getDensity() > elementTwo.getDensity());
     }
 
+    // Searches the 8 adjacent cells for the given element
+    //
+    //      If searching for 0: (C notates the given cell)
+    //         [0][3][3]
+    //         [1][C][1]
+    //         [1][1][1]
+    //
+    //      Returns the position of the top-left cell
+    public static Position findAnyAdjacent(int[][] grid, int row, int col, int eNumToFind) {
+      Position p;
+      int tempCol;
+      int tempRow;
+
+      for (int i = -1; i <= 1; i++) {
+          tempCol = col + i;
+          for (int j = -1; j <= 1; j++) {
+            tempRow = row + j;
+            if (grid[tempRow][tempCol] == eNumToFind) return new Position(tempRow, tempCol);
+         }
+      }
+      return null;
+    }
+
+    // Searches the 4 adjacent cells (no diagonals) for the given element
+    //
+    //      If searching for 0: (C notates the given cell)
+    //         [0][3][3]
+    //         [1][C][1]
+    //         [1][1][1]
+    //
+    //      Returns null as there are no touching 0 element
+    //
+    //      If searching for 3: (C notates the given cell)
+    //         [0][3][3]
+    //         [1][C][1]
+    //         [1][1][1]
+    //
+    //      Returns the position of the cell directly above the center cell.
+    public static Position findTouching(int[][] grid, int row, int col, int eNumToFind) {
+        int tempRow;
+        Random gen = new Random();
+
+        for (int i = -1; i <= 1; i++) {
+            tempRow = row + i;
+            if (i == 0) {
+                if (grid[tempRow][col-1] == eNumToFind && grid[tempRow][col+1] == eNumToFind) {
+                    int d = gen.nextInt(2);
+                    return (d == 1) ? new Position(tempRow, col - 1) : new Position(tempRow, col + 1);
+                }
+                if (grid[tempRow][col - 1] == eNumToFind && grid[tempRow][col+1] != eNumToFind) {
+                    return new Position(tempRow,col-1);
+                }
+                if (grid[tempRow][col + 1] == eNumToFind && grid[tempRow][col-1] != eNumToFind) {
+                    return new Position(tempRow, col-1);
+                }
+            } else {
+                if (grid[tempRow][col] == eNumToFind) {
+                    return new Position(tempRow, col);
+                }
+            }
+        }
+        return null;
+    }
+
+    /* ===================================================================================================================== */
 
   //called when the user clicks on a location using the given tool
   private void locationClicked(int row, int col, int tool)
@@ -64,7 +137,7 @@ public class SandLab
       display.setColor(row, col, Element.getElementFromNum(c).getColor());
   }
 
-  /* Swaps the given row,col element with the one below it */
+  // Swaps the given row,col element with the one below it
   private void swapBelow(int row, int col) {
       int one = grid[row][col];
       int two = grid[row+1][col];
@@ -77,7 +150,7 @@ public class SandLab
   }
 
 
-  /* compares densities */
+  // Compares the density of the given row and col element with the one directly below it
   private boolean compareDensityBelow(int row, int col) {
       if (row + 1 < grid.length) {
           int current = grid[row][col];

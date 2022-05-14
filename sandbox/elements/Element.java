@@ -13,7 +13,8 @@ public abstract class Element {
     public static final int STONE = 3;
     public static final int STEEL = 4;
     public static final int SMOKE = 5;
-    public static int numElements = 6;
+    public static final int DUPLICATOR = 6;
+    public static int numElements = 7;
     public static double density = -1;
 
     public static ArrayList<Element> elements = new ArrayList<>(numElements);
@@ -25,6 +26,7 @@ public abstract class Element {
         elements.add(new Stone());
         elements.add(new Steel());
         elements.add(new Smoke());
+        elements.add(new Duplicator());
     }
 
 

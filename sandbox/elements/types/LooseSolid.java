@@ -19,17 +19,17 @@ public interface LooseSolid extends Solid {
                 if (SandLab.compareDensities(current,grid[row+1][col - 1]) && SandLab.compareDensities(current, grid[row+1][col + 1])) { // if both sides are less dense
                     int direction = gen.nextInt(2);
                     int newCol = (direction == 1) ? col-1 : col+1; // left or right
-                    SandLab.swap(row, col, row+1, newCol, grid);
+                    SandLab.swap(grid, row, col, row+1, newCol);
                     return;
                 }
                 if (SandLab.compareDensities(current,grid[row+1][col - 1]) && !SandLab.compareDensities(current, grid[row + 1][col + 1])) { // if only left is less dense
                     int newCol = col - 1;
-                    SandLab.swap(row, col, row+1, newCol, grid);
+                    SandLab.swap(grid, row, col, row+1, newCol);
                     return;
                 }
                 if (SandLab.compareDensities(current,grid[row+1][col + 1]) && !SandLab.compareDensities(current, grid[row + 1][col - 1])) { // if only right is less dense
                     int newCol = col + 1;
-                    SandLab.swap(row, col, row + 1, newCol, grid);
+                    SandLab.swap(grid, row, col, row + 1, newCol);
                     return;
                 }
             }
@@ -37,13 +37,13 @@ public interface LooseSolid extends Solid {
             // left wall and right is less dense
             if (col == 0 && SandLab.compareDensities(current, grid[row+1][col+1])) {
                 int newCol = col + 1;
-                SandLab.swap(row,col,row+1, newCol, grid);
+                SandLab.swap(grid, row, col,row+1, newCol);
                 return;
             }
             // right wall and left is less dense
             if (col == grid[0].length - 1 && SandLab.compareDensities(current, grid[row+1][col-1])) {
                 int newCol = col - 1;
-                SandLab.swap(row, col, row+1, newCol, grid);
+                SandLab.swap(grid, row, col, row+1, newCol);
             }
         }
     }

@@ -1,11 +1,12 @@
 package sandbox.elements;
 
 import sandbox.SandLab;
+import sandbox.elements.types.Liquid;
 
 import java.awt.*;
 import java.util.Random;
 
-public class Water extends Element {
+public class Water extends Element implements Liquid {
     public static final int elementNumber = Element.WATER;
     public static final String NAME = "Water";
     public static final Color COLOR = Color.BLUE;
@@ -37,7 +38,7 @@ public class Water extends Element {
             }
 
             if (grid[newRow][newCol] == Element.AIR) {
-                SandLab.swap(row, col, newRow, newCol, grid);
+                SandLab.swap(grid, row, col, newRow, newCol);
             }
 
             // add water turning stone to sand?
