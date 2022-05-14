@@ -14,6 +14,7 @@ public class Duplicator extends Element implements UniqueType {
     public static final String NAME = "Duplicator";
     public static final Color COLOR = Color.WHITE;
     public static double density = 500; // immovable
+
     private final double probOfDuplication = 0.5;
     Random gen = new Random();
 
@@ -31,15 +32,13 @@ public class Duplicator extends Element implements UniqueType {
     }
 
     private void duplicate(int[][] grid, int row, int col, Element e) {
-        if (gen.nextDouble() > probOfDuplication) {
-            Position p = SandLab.findAnyAdjacent(grid, row, col, Element.AIR);
-            if (p != null) {
-                System.out.println("DUPLICATED");
+        Position p = SandLab.findAnyAdjacent(grid, row, col, Element.AIR);
+        if (p != null) {
+            if (gen.nextDouble() > probOfDuplication) {
                 SandLab.changeElement(grid, p.row, p.col, e.getElementNumber());
             }
-        } else {
-            System.out.println("DID NOT DUPLICATE");
         }
+
     }
 
     @Override

@@ -87,14 +87,12 @@ public class SandLab
     //         [0][3][3]
     //         [1][C][1]
     //         [1][1][1]
-    //
     //      Returns null as there are no touching 0 element
     //
     //      If searching for 3: (C notates the given cell)
     //         [0][3][3]
     //         [1][C][1]
     //         [1][1][1]
-    //
     //      Returns the position of the cell directly above the center cell.
     public static Position findTouching(int[][] grid, int row, int col, int eNumToFind) {
         int tempRow;
@@ -124,7 +122,7 @@ public class SandLab
 
     /* ===================================================================================================================== */
 
-  //called when the user clicks on a location using the given tool
+  // called when the user clicks on a location using the given tool
   private void locationClicked(int row, int col, int tool)
   {
    grid[row][col] = tool;
@@ -159,6 +157,8 @@ public class SandLab
       }
       return false;
   }
+
+    /* ===================================================================================================================== */
 
   /** copies each element of grid into the display */
   public void updateDisplay()
