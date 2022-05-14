@@ -7,12 +7,15 @@ import sandbox.elements.types.UniqueType;
 import sandbox.util.Position;
 
 import java.awt.*;
+import java.util.Random;
 
 public class Duplicator extends Element implements UniqueType {
     public static final int elementNumber = Element.DUPLICATOR;
     public static final String NAME = "Duplicator";
     public static final Color COLOR = Color.WHITE;
     public static double density = 500; // immovable
+    private final double probOfDuplication = 0.5;
+    Random gen = new Random();
 
     @Override
     public void step(int[][] grid, int row, int col) {
@@ -28,9 +31,14 @@ public class Duplicator extends Element implements UniqueType {
     }
 
     private void duplicate(int[][] grid, int row, int col, Element e) {
-        Position p = SandLab.findAnyAdjacent(grid, row, col, Element.AIR);
-        if (p != null) {
-            SandLab.changeElement(grid, p.row, p.col, e.getElementNumber());
+        if (gen.nextDouble() > probOfDuplication) {
+            Position p = SandLab.findAnyAdjacent(grid, row, col, Element.AIR);
+            if (p != null) {
+                System.out.println("DUPLICATED");
+                SandLab.changeElement(grid, p.row, p.col, e.getElementNumber());
+            }
+        } else {
+            System.out.println("DID NOT DUPLICATE");
         }
     }
 
