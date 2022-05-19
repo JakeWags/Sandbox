@@ -70,10 +70,14 @@ public class SandLab
       Position p;
       int tempCol;
       int tempRow;
+      int rowStart = (row - 1 >= 0) ? -1 : 0;
+      int colStart = (col - 1 >= 0) ? -1 : 0;
+      int rowBound = (row + 1 > grid.length) ? 1 : 0;
+      int colBound = (col +1 < grid[0].length) ? 1 : 0;
 
-      for (int i = -1; i <= 1; i++) {
+      for (int i = colStart; i <= colBound; i++) {
           tempCol = col + i;
-          for (int j = -1; j <= 1; j++) {
+          for (int j = rowStart; j <= rowBound; j++) {
             tempRow = row + j;
             if (grid[tempRow][tempCol] == eNumToFind) return new Position(tempRow, tempCol);
          }
@@ -99,17 +103,27 @@ public class SandLab
         Random gen = new Random();
 
         for (int i = -1; i <= 1; i++) {
-            tempRow = row + i;
+            tempRow = (row + i < grid.length) ? row + i : row;
             if (i == 0) {
-                if (grid[tempRow][col-1] == eNumToFind && grid[tempRow][col+1] == eNumToFind) {
-                    int d = gen.nextInt(2);
-                    return (d == 1) ? new Position(tempRow, col - 1) : new Position(tempRow, col + 1);
+                if (col-1 >= 0 && col+1 < grid[0].length) {
+                    if (grid[tempRow][col - 1] == eNumToFind && grid[tempRow][col + 1] == eNumToFind) {
+                        int d = gen.nextInt(2);
+                        return (d == 1) ? new Position(tempRow, col - 1) : new Position(tempRow, col + 1);
+                    }
+                    if (grid[tempRow][col - 1] == eNumToFind && grid[tempRow][col + 1] != eNumToFind) {
+                        return new Position(tempRow, col - 1);
+                    }
+                    if (grid[tempRow][col + 1] == eNumToFind && grid[tempRow][col - 1] != eNumToFind) {
+                        return new Position(tempRow, col + 1);
+                    }
                 }
-                if (grid[tempRow][col - 1] == eNumToFind && grid[tempRow][col+1] != eNumToFind) {
-                    return new Position(tempRow,col-1);
+                if (col-1<0 && col+1 < grid[0].length) { // left wall
+                    if (grid[tempRow][col + 1] == eNumToFind)
+                        return new Position(tempRow, col -1);
                 }
-                if (grid[tempRow][col + 1] == eNumToFind && grid[tempRow][col-1] != eNumToFind) {
-                    return new Position(tempRow, col-1);
+                if (col+1 >= grid[0].length && col-1>=0) { // right wall
+                    if (grid[tempRow][col-1] == eNumToFind)
+                        return new Position(tempRow, col + 1);
                 }
             } else {
                 if (grid[tempRow][col] == eNumToFind) {
